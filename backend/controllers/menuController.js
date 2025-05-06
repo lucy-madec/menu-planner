@@ -55,8 +55,32 @@ const deleteMenu = async (req, res) => {
   }
 };
 
+// ✏️ Modifier un menu par son ID
+const updateMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { day, meal, ingredients } = req.body;
+
+    const updatedMenu = await Menu.findByIdAndUpdate(
+      id,
+      { day, meal, ingredients },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedMenu) {
+      return res.status(404).json({ message: "Menu non trouvé" });
+    }
+
+    res.status(200).json(updatedMenu);
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du menu :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
 module.exports = {
   createMenu,
   getAllMenus,
   deleteMenu,
+  updateMenu,
 };
