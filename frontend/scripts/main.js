@@ -11,6 +11,9 @@ async function fetchMenus() {
     li.textContent = `${menu.day} : ${menu.meal} (${menu.ingredients.join(
       ", "
     )})`;
+    const edit = document.createElement("button");
+    edit.textContent = "✏️";
+
     const del = document.createElement("button");
     del.textContent = "❌";
     del.onclick = async () => {
