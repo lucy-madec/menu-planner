@@ -11,20 +11,24 @@ async function fetchMenus() {
     li.textContent = `${menu.day} : ${menu.meal} (${menu.ingredients.join(
       ", "
     )})`;
-    const edit = document.createElement("button");
-    edit.textContent = "✏️";
-    edit.onclick = () => {
-      console.log("Menu à éditer :", menu);
-    };
-    li.appendChild(edit);
-    li.appendChild(del);
 
+    // 🔧 Supprimer (❌)
     const del = document.createElement("button");
     del.textContent = "❌";
     del.onclick = async () => {
       await fetch(`${apiUrl}/${menu._id}`, { method: "DELETE" });
       fetchMenus();
     };
+
+    // ✏️ Modifier
+    const edit = document.createElement("button");
+    edit.textContent = "✏️";
+    edit.onclick = () => {
+      console.log("Menu à éditer :", menu);
+    };
+
+    // 👇 Ajout dans l'ordre
+    li.appendChild(edit);
     li.appendChild(del);
     list.appendChild(li);
   });
