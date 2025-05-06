@@ -13,6 +13,11 @@ async function fetchMenus() {
     )})`;
     const edit = document.createElement("button");
     edit.textContent = "✏️";
+    edit.onclick = () => {
+      console.log("Menu à éditer :", menu);
+    };
+    li.appendChild(edit);
+    li.appendChild(del);
 
     const del = document.createElement("button");
     del.textContent = "❌";
