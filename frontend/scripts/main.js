@@ -1,5 +1,7 @@
 const apiUrl = "http://localhost:5000/api/menus";
 
+let currentEditId = null;
+
 async function fetchMenus() {
   const res = await fetch(apiUrl);
   const menus = await res.json();
@@ -24,7 +26,14 @@ async function fetchMenus() {
     const edit = document.createElement("button");
     edit.textContent = "✏️";
     edit.onclick = () => {
-      console.log("Menu à éditer :", menu);
+      // Stocke l'ID pour une future mise à jour
+      currentEditId = menu._id;
+
+      // Pré-remplit le formulaire
+      document.getElementById("day").value = menu.day;
+      document.getElementById("meal").value = menu.meal;
+      document.getElementById("ingredients").value =
+        menu.ingredients.join(", ");
     };
 
     // 👇 Ajout dans l'ordre
