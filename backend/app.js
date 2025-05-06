@@ -27,3 +27,7 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Serveur lancé sur http://localhost:${PORT}`);
 });
+
+const menuRoutes = require('./routes/menuRoutes');
+app.use('/api/menus', menuRoutes);
+
