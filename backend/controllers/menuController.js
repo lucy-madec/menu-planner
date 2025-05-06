@@ -37,7 +37,26 @@ const getAllMenus = async (req, res) => {
   }
 };
 
+// 🗑️ Supprimer un menu par son ID
+const deleteMenu = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedMenu = await Menu.findByIdAndDelete(id);
+
+    if (!deletedMenu) {
+      return res.status(404).json({ message: "Menu non trouvé" });
+    }
+
+    res.status(200).json({ message: "Menu supprimé avec succès" });
+  } catch (error) {
+    console.error("Erreur lors de la suppression du menu :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
 module.exports = {
   createMenu,
   getAllMenus,
+  deleteMenu,
 };
