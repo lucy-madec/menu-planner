@@ -45,6 +45,7 @@ async function fetchMenus() {
 
 document.getElementById("menu-form").addEventListener("submit", async (e) => {
   e.preventDefault();
+
   const day = document.getElementById("day").value;
   const meal = document.getElementById("meal").value;
   const ingredients = document
@@ -52,14 +53,25 @@ document.getElementById("menu-form").addEventListener("submit", async (e) => {
     .value.split(",")
     .map((i) => i.trim());
 
-  await fetch(apiUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ day, meal, ingredients }),
-  });
+  const menuData = { day, meal, ingredients };
 
-  e.target.reset();
-  fetchMenus();
+  // 🔁 Si currentEditId est défini, on fait un PUT (mise à jour)
+  if (currentEditId) {
+    await fetch(`${apiUrl}/${currentEditId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(menuData),
+    });
+    currentEditId = null; // On réinitialise l'état d'édition
+  } else {
+    // Sinon, on fait un POST (ajout normal)
+    await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(menuData),
+    });
+  }
+
+  e.target.reset(); // Vide le formulaire
+  fetchMenus(); // Recharge la liste
 });
-
-fetchMenus();
